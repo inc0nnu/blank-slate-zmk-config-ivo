@@ -9,12 +9,12 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 
+// layers
 #define BASE_L 0
 #define NUM_L 1
-#define SHIFT_L 2
-#define NUM2_L 3
-#define NAV_L 4
-#define CONF_L 5
+#define SYM_L 2
+#define NAV_L 3
+#define CONF_L 4
 
 // Home row mods macro
 #define HRML(k1,k2,k3,k4,k5) &ht LSHIFT k1 &ht LGUI k2 &ht LALT k3 &ht LCTRL k4 &ht LC(LS(LALT)) k5
@@ -23,21 +23,25 @@
 // Bluetooth
 #define BT(n) BT_SEL n
 
-// Using layer taps on thumbs, having quick tap as well helps w/ repeating space/backspace
-&lt { quick_tap_ms = <200>; };
-
-&mt {
-    flavor = "tap-preferred";
-    tapping_term_ms = <200>;
-    };
-
-// Only turn off it the key is held for 2 seconds or longer.
-&soft_off   {
-    hold-time-ms = <2000>;
-    };
+&caps_word {
+    continue-list = <UNDERSCORE MINUS>;
+};
 
 / {
-    behaviors   {
+    behaviors {
+        mo_tog: behavior_mo_tog {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&mo>, <&tog>;
+        };
+        td_mt: tap_dance_mod_tap {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&hs 2 LSHIFT>, <&caps_word>;
+        };
         ht: hold_tap  {
             label = "hold_tap";
             compatible = "zmk,behavior-hold-tap";
@@ -47,17 +51,15 @@
             quick-tap-ms = <150>;
             global-quick-tap;
             bindings = <&kp>, <&kp>;
-            };
         };
-
-    // NUM en SHIFT layers om naar NUM2 te komen
-    conditional_layers  {
-        compatible = "zmk,conditional-layers";
-        tri_layer   {
-            if-layers = <NUM_L SHIFT_L>;
-            then-layer = <NUM2_L>;
-            };
+        hs: hold_sticky {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&mo>, <&sk>;
         };
+    };
 
     // Q en BKSP om op CONF layer te komen
     combos  {
@@ -78,18 +80,6 @@
             };
         };
 
-    chosen  {
-        zmk,matrix_transform =
-        #ifdef TBLE_DUAL_2U
-            &dual_2u_transform;
-        #elif defined(TBLE_MIT)
-            &mit_transform;
-        #else
-            &ortho_transform;
-        #endif
-        };
-
-
     keymap  {
         compatible = "zmk,keymap";
         base_layer  {
@@ -97,39 +87,31 @@
                 &kp ESC   &kp Q    &kp W    &kp E      &kp R  &kp T     &kp Y &kp U &kp I     &kp O   &kp P     &kp BSPC
                 &kp TAB   HRML(A,    S,      D,       F,       G)      HRMR(H,    J,    K,        L,     SEMI) &kp ENTER
                 &none   &kp Z    &kp X    &kp C      &kp V  &kp B     &kp N &kp M &kp COMMA &kp DOT &kp FSLH  &kp DEL
-                &none &none &none &none &mo NUM_L  &kp SPACE &mo SHIFT_L &mo NAV_L &none     &none   &none     &none
+                &kp DEL &none &none &none &mo_tog 1 1 &kp SPACE &td_mt &mo_tog 3 3 &none     &none   &none     &none
                 >;
             };
         num_layer {
             bindings = < 
                 &kp ESC &kp EXCL  &kp AT  &kp HASH &kp QMARK &kp DLLR  &kp PERCENT &kp AMPS  &kp LPAR  &kp RPAR &none    &kp BSPC
                 &kp TAB HRML(N1,      N2,     N3,      N4,       N5)   HRMR(N6,        N7,       N8,       N9,      N0)  &kp ENTER
-                &none   &kp GRAVE &kp SQT &kp DQT  &kp MINUS &kp PLUS  &kp STAR    &kp EQUAL &kp COMMA &kp DOT  &kp FSLH &none
-                &kp ENTER &kp LEFT &kp DOWN &kp RIGHT &mo NUM_L     &kp SPACE 	   &mo SHIFT_L    &none     &none     &none    &none    &none 
+                &none   &kp BSLH &kp TILDE &kp PIPE  &kp MINUS &kp PLUS  &kp STAR    &kp EQUAL &kp COMMA &kp DOT  &kp FSLH &kp DEL
+                &none &none &none &none &mo_tog 1 1 &none	 &kp SPACE &none     &none     &none    &none    &none 
                 >;
             };
-    	shift_layer {
+         symbol_layer {
             bindings = <
-                &none &kp RS(Q) &kp RS(W)  &kp RS(E) &kp RS(R) &kp RS(T)   &kp LS(Y) &kp LS(U) &kp LS(I) &kp LS(O) &kp LS(P) &kp BSPC 
-                &kp RS(TAB) HRML(RS(A),  RS(S),   RS(D),  RS(F),  RS(G))    HRMR(LS(H),   LS(J),  LS(K),   LS(L), COLON ) &kp LS(ENTER) 
-                &none &kp RS(Z)  &kp RS(X)   &kp RS(C)   &kp RS(V)  &kp RS(B)      &kp LS(N)    &kp LS(M)   &kp LT &kp GT  &kp BSLH &kp LS(DEL) 
-                &none &none &none &none  &mo NUM_L  &kp SPACE   &mo SHIFT_L  &none &none &none &none &none 
-                >;
-            };
-        symbol2_layer {
-            bindings = <
-   	 	        &none &none   &none  &none &none &none       &none &kp CARET  &none  &none  &none &kp BSPC 
-   	            &none &none &none &kp LBRC &kp LBKT &none &none  &kp RBKT &kp RBRC &none &none &none 
-   	            &none &kp TILDE  &none &none &kp UNDER &kp PIPE    &none &none  &none  &smile  &none &none
-                &none &none &none &none   &mo NUM_L   &none     &mo SHIFT_L   &none &none &none &none &none 
+   	 	        &none &kp F1   &kp F2  &kp F3 &kp F4 &kp F5       &none &none  &none  &none  &none &kp BSPC 
+   	            &none &none &none &kp LBKT &kp LPAR &kp LBRC &kp RBRC  &kp RPAR &kp RBKT &none &none &ENTER 
+   	            &none &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11  &kp F12 &none  &smile  &none  &none
+                &none &none &none &none   &none   &kp SPACE   &td_mt &none &none &none &none &none 
                 >;
             };
         nav_layer {
             bindings = <
-       	        &none &kp F1     &kp F2   &kp F3   &kp F4     &kp F5          &none        &kp LA(LEFT) &kp UP   &kp LA(RIGHT) &kp PAGE_UP   &kp LC(BSPC)
-                &none &kp LSHIFT &kp LGUI &kp LALT &kp LCTRL &kp LC(LS(LALT)) &kp LC(LEFT) &kp LEFT     &kp DOWN &kp RIGHT     &kp LC(RIGHT) &kp LA(ENTER) 
-                &none &kp F6     &kp F7   &kp F8   &kp F9     &kp F10         &none        &kp HOME     &none    &kp END       &kp PAGE_DOWN &kp LC(DEL)
-                &none &none      &none    &none    &kp LSHIFT &kp SPACE       &none        &mo NAV_L    &none    &none         &none         &none
+       	        &none &none     &none   &none  &none     &none          &none        &kp LA(LEFT) &kp UP   &kp LA(RIGHT) &kp PAGE_UP   &kp LC(BSPC)
+                &none &kp LCTRL &kp LGUI &kp LALT &kp LSHIFT &kp LC(LS(LALT)) &kp LC(LEFT) &kp LEFT     &kp DOWN &kp RIGHT     &kp LC(RIGHT) &kp LA(ENTER) 
+                &none &none    &none  &none  &none      &none      &none  &kp HOME      &none    &kp END        &kp PAGE_DOWN         &kp LC(DEL)
+                &kp DEL &none      &none    &none    &none &kp SPACE       &none        &mo_tog 3 3    &none    &none         &none         &none
                 >;
             };
     	config_layer {
