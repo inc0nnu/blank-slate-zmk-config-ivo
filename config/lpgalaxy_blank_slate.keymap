@@ -22,39 +22,24 @@
 
 // Home row mods macro
 #define HRML(k1,k2,k3,k4,k5) &ht LSHIFT k1 &ht LGUI k2 &ht LALT k3 &ht LCTRL k4 &ht LC(LS(LALT)) k5
-#define HRMR(k1,k2,k3,k4) &ht RC(RS(RALT)) k1 &ht RCTRL k2  &ht LALT k3 &ht RGUI k4 &ht RSHIFT k5
+#define HRMR(k1,k2,k3,k4) &ht RC(RS(RALT)) k1 &ht RCTRL k2  &ht LALT k3 &ht RGUI k4
 
 // Bluetooth
-#define _BT_SEL_KEYS_ &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 
+#define _BT_SEL_KEYS_ &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3
 #define _BTC_ &bt BT_CLR
 
 /* ZMK_COMBOS */
 
-#define ALL 0xff
-#if !defined COMBO_TERM
-    #define COMBO_TERM 30
-#endif
-
-#define ZMK_COMBO(...) CONCAT(ZMK_COMBO_, VARGS(__VA_ARGS__))(__VA_ARGS__)
-#define ZMK_COMBO_3(name, combo_bindings, keypos) \
-    ZMK_COMBO_4(name, combo_bindings, keypos, ALL)
-#define ZMK_COMBO_4(name, combo_bindings, keypos, combo_layers) \
-    ZMK_COMBO_5(name, combo_bindings, keypos, combo_layers, COMBO_TERM)
-#define ZMK_COMBO_5(name, combo_bindings, keypos, combo_layers, combo_timeout) \
-    ZMK_COMBO_6(name, combo_bindings, keypos, combo_layers, combo_timeout, 0)
-#define ZMK_COMBO_6(name, combo_bindings, keypos, combo_layers, combo_timeout, combo_idle) \
-    ZMK_COMBO_7(name, combo_bindings, keypos, combo_layers, combo_timeout, combo_idle, )
-#define ZMK_COMBO_7(name, combo_bindings, keypos, combo_layers, combo_timeout, combo_idle, combo_vaargs) \
-    / { \
+#define ZMK_COMBO(name, combo_bindings, keypos, combo_layers, combo_timeout, combo_idle) \
+     { \
         combos { \
             compatible = "zmk,combos"; \
-            combo_ ## name { \
+            name { \
                 timeout-ms = <combo_timeout>; \
                 bindings = <combo_bindings>; \
                 key-positions = <keypos>; \
                 layers = <combo_layers>; \
                 require-prior-idle-ms = <combo_idle>; \
-                combo_vaargs \
             }; \
         }; \
     };
@@ -91,7 +76,7 @@
 
 
     // Combos
-ZMK_COMBO(bltoo,    &to BLT,     0 11     , DEF    , 70 , 100)  // go to bluetooth layer, only active on default layer
+ZMK_COMBO(bltoo,  &to BLT,       0 11     , DEF    , 70 , 100)  // go to bluetooth layer, only active on default layer
 ZMK_COMBO(exclam, &kp EXCL,      2 3      , DEF NUM, 70 , 100)  // 
 ZMK_COMBO(questi, &kp QMARK,     3 4      , DEF NUM, 70 , 100)  // 
 ZMK_COMBO(squot,  &kp SQT,       7 8      , DEF NUM, 70 , 100)  // 
