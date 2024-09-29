@@ -88,8 +88,10 @@
         };
     };
 
+
+
     // Combos
-ZMK_COMBO(blt,    &to BLT,       0 11     , DEF    , 70 , 100)  // go to bluetooth layer, only active on default layer
+ZMK_COMBO(bltoo,    &to BLT,     0 11     , DEF    , 70 , 100)  // go to bluetooth layer, only active on default layer
 ZMK_COMBO(exclam, &kp EXCL,      2 3      , DEF NUM, 70 , 100)  // 
 ZMK_COMBO(questi, &kp QMARK,     3 4      , DEF NUM, 70 , 100)  // 
 ZMK_COMBO(squot,  &kp SQT,       7 8      , DEF NUM, 70 , 100)  // 
