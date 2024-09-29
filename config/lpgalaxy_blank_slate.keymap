@@ -11,46 +11,71 @@
 #include <dt-bindings/zmk/mouse.h>
 
 // layers
-#define BASE_L 0
-#define NUM_L 1
-#define SYM_L 2
-#define NAV_L 3
-#define CONF_L 4
+#define DEF 0
+#define NUM 1
+#define NAV 2
+#define MOU 3
+#define BLT 4
+
+#define XXX &none
+#define ___ &trans
 
 // Home row mods macro
-#define HRML(k1,k2,k3,k4,k5) &ht LCTRL k1 &ht LGUI k2 &ht LALT k3 &ht LSHIFT k4 &ht LC(LS(LALT)) k5
-#define HRMR(k1,k2,k3,k4,k5) &ht RC(RS(RALT)) k1 &ht RSHIFT k2  &ht LALT k3 &ht RGUI k4 &ht RCTRL k5
+#define HRML(k1,k2,k3,k4,k5) &ht LSHIFT k1 &ht LGUI k2 &ht LALT k3 &ht LCTRL k4 &ht LC(LS(LALT)) k5
+#define HRMR(k1,k2,k3,k4) &ht RC(RS(RALT)) k1 &ht RCTRL k2  &ht LALT k3 &ht RGUI k4 &ht RSHIFT k5
 
 // Bluetooth
-#define BT(n) BT_SEL n
+#define _BT_SEL_KEYS_ &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 
+#define _BTC_ &bt BT_CLR
 
-// Layer keys
-#define MO_TO(layer) &mo_to layer layer
+/* ZMK_COMBOS */
+
+#define ALL 0xff
+#if !defined COMBO_TERM
+    #define COMBO_TERM 30
+#endif
+
+#define ZMK_COMBO(...) CONCAT(ZMK_COMBO_, VARGS(__VA_ARGS__))(__VA_ARGS__)
+#define ZMK_COMBO_3(name, combo_bindings, keypos) \
+    ZMK_COMBO_4(name, combo_bindings, keypos, ALL)
+#define ZMK_COMBO_4(name, combo_bindings, keypos, combo_layers) \
+    ZMK_COMBO_5(name, combo_bindings, keypos, combo_layers, COMBO_TERM)
+#define ZMK_COMBO_5(name, combo_bindings, keypos, combo_layers, combo_timeout) \
+    ZMK_COMBO_6(name, combo_bindings, keypos, combo_layers, combo_timeout, 0)
+#define ZMK_COMBO_6(name, combo_bindings, keypos, combo_layers, combo_timeout, combo_idle) \
+    ZMK_COMBO_7(name, combo_bindings, keypos, combo_layers, combo_timeout, combo_idle, )
+#define ZMK_COMBO_7(name, combo_bindings, keypos, combo_layers, combo_timeout, combo_idle, combo_vaargs) \
+    / { \
+        combos { \
+            compatible = "zmk,combos"; \
+            combo_ ## name { \
+                timeout-ms = <combo_timeout>; \
+                bindings = <combo_bindings>; \
+                key-positions = <keypos>; \
+                layers = <combo_layers>; \
+                require-prior-idle-ms = <combo_idle>; \
+                combo_vaargs \
+            }; \
+        }; \
+    };
+
+#define ZMK_LAYER(_name, layout) \
+    / { \
+        keymap { \
+            compatible = "zmk,keymap"; \
+            layer_ ## _name { \
+                display-name = ZMK_HELPER_STRINGIFY(_name); \
+                bindings = <layout>; \
+            }; \
+        }; \
+    };
 
 &caps_word {
-    continue-list = <UNDERSCORE MINUS>;
-};
-
-&sk {
-    release-after-ms = <3000>;
-    quick-release;
+    continue-list = <UNDERSCORE MINUS BSPC>;
 };
 
 / {
     behaviors {
-        mo_to: behavior_mo_to {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <220>;
-            bindings = <&mo>, <&to>;
-        };
-        shft_n_sym: shift_and_sym {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            tapping-term-ms = <180>;
-            bindings = <&hs SYM_L LSHIFT>, <&caps_word>;
-        };
         ht: hold_tap  {
             label = "hold_tap";
             compatible = "zmk,behavior-hold-tap";
@@ -61,24 +86,28 @@
             global-quick-tap;
             bindings = <&kp>, <&kp>;
         };
-        hs: hold_sticky {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <220>;
-            bindings = <&mo>, <&sk>;
-        };
     };
 
-    // Q en BKSP om op CONF layer te komen
-    combos  {
-        compatible = "zmk,combos";
-        combo_settings  {
-            timeout-ms = <150>;
-            key-positions = <0 11>;
-            bindings = <&to CONF_L>;
-            };
-        };
+    // Combos
+ZMK_COMBO(blt,    &to BLT,       0 11     , DEF    , 70 , 100)  // go to bluetooth layer, only active on default layer
+ZMK_COMBO(exclam, &kp EXCL,      2 3      , DEF NUM, 70 , 100)  // 
+ZMK_COMBO(questi, &kp QMARK,     3 4      , DEF NUM, 70 , 100)  // 
+ZMK_COMBO(squot,  &kp SQT,       7 8      , DEF NUM, 70 , 100)  // 
+ZMK_COMBO(dquot,  &kp DQT,       8 9      , DEF NUM, 70 , 100)  // 
+ZMK_COMBO(ldr1,   &kp LC(SPACE), 14 15 16 , DEF    , 70 , 100)  // 
+ZMK_COMBO(ldr2,   &kp LC(SPACE), 19 20 21 , DEF    , 70 , 100)  // 
+ZMK_COMBO(brackl, &kp LBKT,      14 15    , DEF NUM, 70 , 100)  // 
+ZMK_COMBO(brackr, &kp RBKT,      15 16    , DEF NUM, 70 , 100)   // 
+ZMK_COMBO(capsword, &capsword,   17 18    , DEF    , 70 , 100)   // 
+ZMK_COMBO(parenl, &kp LPAR,      19 20    , DEF NUM, 70 , 100)   // 
+ZMK_COMBO(parenr, &kp RPAR,      20 21    , DEF NUM, 70 , 100)   // 
+ZMK_COMBO(colo,   &kp COLON,     21 22    , DEF NUM, 70 , 100)   // 
+ZMK_COMBO(copy, &kp LC(C),       26 27    , DEF    , 70 , 100)   // 
+ZMK_COMBO(paste, &kp LC(V),      27 28    , DEF    , 70 , 100)   // 
+ZMK_COMBO(numword, &numword,     29 30    , DEF    , 70 , 100)   // 
+ZMK_COMBO(bracel, &kp LBRC,      31 32    , DEF NUM, 70 , 100)   // 
+ZMK_COMBO(bracer, &kp RBRC,      32 33    , DEF NUM, 70 , 100)   // 
+
 
     macros  {
         smile: smile    {
@@ -91,44 +120,44 @@
 
     keymap  {
         compatible = "zmk,keymap";
-        base_layer  {
+        default_layer  {
             bindings = <
                 &kp ESC   &kp Q    &kp W    &kp E      &kp R  &kp T     &kp Y &kp U &kp I     &kp O   &kp P     &kp BSPC
-                &kp TAB   HRML(A,    S,      D,       F,       G)      HRMR(H,    J,    K,        L,     SEMI) &kp ENTER
+                &kp TAB   HRML(A,    S,      D,       F,       G)      HRMR(H,    J,    K,        L)  &kp SEMI  &kp ENTER
                 &none   &kp Z    &kp X    &kp C      &kp V  &kp B     &kp N &kp M &kp COMMA &kp DOT &kp FSLH  &kp DEL
-                &kp DEL &none &none &none MO_TO(1) &kp SPACE &hs 2 LSHIFT MO_TO(3) &none     &none   &none     &none
+                &kp DEL XXX     XXX  XXX  &mo NUM  &kp SPACE   &kp LSHIFT   &mo NAV   XXX  XXX  XXX  XXX
                 >;
             };
         num_layer {
             bindings = < 
-                &kp ESC &kp EXCL  &kp AT  &kp HASH &kp QMARK  &kp PERCENT &kp AMPS  &kp SQT  &kp DQT &kp DOLLAR &kp CARET    &kp BSPC
-                &kp TAB HRML(N1,      N2,     N3,      N4,       N5)   HRMR(N6,        N7,       N8,       N9,      N0)  &kp ENTER
-                &none   &kp BSLH &kp TILDE &kp PIPE  &ht UNDER MINUS &kp PLUS  &kp STAR    &kp EQUAL &kp COMMA &kp DOT  &kp FSLH &kp DEL
-                &none &none &none &none &mo_to 1 0	 &kp SPACE &mo 2   MO_TO(3)    &none    &none    &none &kp SPACE
-                >;
-            };
-         symbol_layer {
-            bindings = <
-   	 	        &none &kp F1   &kp F2  &kp F3 &kp F4 &kp F5       &none &none  &none  &none  &none &kp BSPC 
-   	            &caps_word &none &none &kp LBKT &kp LPAR &kp LBRC &kp RBRC  &kp RPAR &kp RBKT &none &none &kp ENTER 
-   	            &none &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11  &kp F12 &none  &smile  &none  &kp DEL
-                &kp DEL &none &none &none   &none   &kp SPACE   &mo 2 &none &none &none &none &none 
+                &kp ESC &kp TILDE  &kp AT  &kp HASH &kp DOLLAR &kp PERCENT &kp AMPS  &kp SQT &kp LPAR &kp RPAR &smile    &kp BSPC
+                &kp TAB HRML(N1,      N2,     N3,      N4,       N5)   HRMR(N6,        N7,       N8,       N9) &kp N0  &kp ENTER
+                XXX   &kp BSLH &kp TILDE &kp PIPE  &ht UNDER MINUS &kp PLUS  &kp STAR    &kp EQUAL &kp COMMA &kp DOT  &kp FSLH &kp DEL
+                XXX  XXX  XXX  XXX  ___  ___  ___  ___  XXX  XXX  XXX  &kp SPACE
                 >;
             };
         nav_layer {
             bindings = <
-       	        &none &none     &none   &mkp RCLK  &mkp LCLK     &none          &none        &kp LA(LEFT) &kp UP   &kp LA(RIGHT) &kp PAGE_UP   &kp LC(BSPC)
-                &none &kp LCTRL &kp LGUI &kp LALT &kp LSHIFT &kp LC(LS(LALT)) &kp LC(LEFT) &kp LEFT     &kp DOWN &kp RIGHT     &kp LC(RIGHT) &kp LA(ENTER) 
-                &none &none    &none  &none  &none      &none      &none  &kp HOME      &none    &kp END        &kp PAGE_DOWN         &kp LC(DEL)
-                &kp DEL &none      &none    &none    MO_TO(1) &kp SPACE       &mo 2        &mo_to 3 0    &none    &none         &none         &kp SPACE
+       	        &kp ESC  &kp F1    &kp F2   &kp F3   &kp F4  &kp F5  XXX   &kp LA(LEFT) &kp UP   &kp LA(RIGHT) &kp PAGE_UP   &kp LC(BSPC)
+                &kp TAB  &kp LSHIFT &kp LGUI &kp LALT &kp LCTRL &kp LC(LS(LALT)) &kp LC(LEFT) &kp LEFT     &kp DOWN &kp RIGHT     &kp LC(RIGHT) &kp LA(ENTER) 
+                XXX      &kp F6    &kp F7   &kp F8   &kp F9  &kp F10 XXX   &kp HOME   XXX     &kp END      &kp PAGE_DOWN         &kp LC(DEL)
+                XXX  XXX  XXX  XXX  ___  ___  ___  ___  XXX  XXX  XXX  XXX
                 >;
             };
-    	config_layer {
+        mouse_layer {
             bindings = <
-                &to 0 &none &none &none &none &none   &none  &none &none &none &none &none 
-                &none &bt BT(0) &bt BT(1) &bt BT(2) &bt BT(3) &bt BT(4)    &none   &none &none &none &bt BT_CLR &none 
-                &none &none &none &none &none &none         &none        &none &none &none &none &none 
-                &none &none &none &none &kp B &kp B         &kp B        &kp B &none &none &none &none 
+       	        ___      ___      ___      ___      ___      ___      ___     leftclick  scrollup   rightclick   XXX  &kp LC(BSPC)
+                &kp TAB  &kp LSHIFT &kp LGUI &kp LALT &kp LCTRL &kp LC(LS(LALT)) XXX  scrollleft  scrolldown  scrollright  XXX  &kp LA(ENTER) 
+                XXX     ___     ___     ___     ___     ___      XXX   XXX   XXX   XXX   XXX   &kp LC(DEL)
+                XXX     XXX     XXX     XXX     ___     ___     ___     ___  XXX   XXX   XXX   XXX
+                >;
+            };
+    	bluetooth_layer {
+            bindings = <
+                &to DEF XXX   XXX   XXX   XXX   XXX   XXX   XXX   XXX   XXX    XXX     XXX
+                XXX     _BT_SEL_KEYS_           XXX   XXX   XXX   XXX   XXX    _BTC_   XXX 
+                XXX     XXX   XXX   XXX   XXX   XXX   XXX   XXX   XXX   XXX    XXX     XXX
+                XXX     XXX   XXX   XXX   XXX   XXX   XXX   XXX   XXX   XXX    XXX     XXX 
                 >;
             };
     };
