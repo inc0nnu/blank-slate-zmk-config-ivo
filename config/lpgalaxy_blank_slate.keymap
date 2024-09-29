@@ -76,6 +76,7 @@
 
 
     // Combos
+    combos {
 ZMK_COMBO(bltoo,  &to BLT,       0 11     , DEF    , 70 , 100)  // go to bluetooth layer, only active on default layer
 ZMK_COMBO(exclam, &kp EXCL,      2 3      , DEF NUM, 70 , 100)  // 
 ZMK_COMBO(questi, &kp QMARK,     3 4      , DEF NUM, 70 , 100)  // 
@@ -94,7 +95,7 @@ ZMK_COMBO(paste, &kp LC(V),      27 28    , DEF    , 70 , 100)   //
 ZMK_COMBO(numword, &numword,     29 30    , DEF    , 70 , 100)   // 
 ZMK_COMBO(bracel, &kp LBRC,      31 32    , DEF NUM, 70 , 100)   // 
 ZMK_COMBO(bracer, &kp RBRC,      32 33    , DEF NUM, 70 , 100)   // 
-
+    };
 
     macros  {
         smile: smile    {
