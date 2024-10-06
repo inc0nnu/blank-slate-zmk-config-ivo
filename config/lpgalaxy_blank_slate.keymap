@@ -106,9 +106,9 @@
             };
          nav_layer {
             bindings = <
-   	 	        XXX  &kp F1   &kp F2  &kp F3 &kp F4 &kp F5       &kp LA(LEFT) &kp UP   &kp LA(RIGHT) &kp PAGE_UP   &kp LC(BSPC)
+   	 	        XXX  &kp F1   &kp F2  &kp F3 &kp F4 &kp F5     XXX  &kp LA(LEFT) &kp UP   &kp LA(RIGHT) &kp PAGE_UP   &kp LC(BSPC)
    	            &caps_word &kp LSHIFT &kp LGUI &kp LALT &kp LCTRL &kp LC(LS(LALT)) &kp LC(LEFT) &kp LEFT     &kp DOWN &kp RIGHT     &kp LC(RIGHT) &kp LA(ENTER) 
-   	            XXX &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &none  &kp HOME      &none    &kp END        &kp PAGE_DOWN         &kp LC(DEL)
+   	            XXX &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 XXX  &kp HOME    XXX   &kp END        &kp PAGE_DOWN         &kp LC(DEL)
                 &kp DEL XXX    XXX  XXX    ___   ___   ___   ___   XXX   XXX   XXX   XXX
                 >;
             };
