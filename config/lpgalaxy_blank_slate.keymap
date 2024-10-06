@@ -29,6 +29,13 @@
 #define BT_SEL_ROW &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3
 #define BT_SEL_CLR &bt BT_CLR
 
+#define COMBO(NAME, BINDINGS, KEYPOS) \
+  combo_##NAME { \
+    timeout-ms = <50>; \
+    bindings = <BINDINGS>; \
+    key-positions = <KEYPOS>; \
+    layers = DEF; \
+  };
 
 &caps_word {
     continue-list = <UNDERSCORE MINUS BSPC DOT>;
@@ -56,6 +63,14 @@
         };
 
     };
+ 
+ combos {
+  compatible = "zmk,combos";
+  
+  COMBO(conflayer, &to CONF, 0 11)
+  COMBO(capsword, &caps_word, 17 18)
+  COMBO(ctrlspce, &kp LC(SPACE), 14 15 16)
+};
     // Q en BKSP om op CONF layer te komen
     combos  {
         compatible = "zmk,combos";
