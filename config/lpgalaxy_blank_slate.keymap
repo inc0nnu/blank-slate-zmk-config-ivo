@@ -71,35 +71,7 @@
   COMBO(capsword, &caps_word, 17 18)
   COMBO(ctrlspce, &kp LC(SPACE), 14 15 16)
 };
-    // Q en BKSP om op CONF layer te komen
-    combos  {
-        compatible = "zmk,combos";
-        combo_settings  {
-            timeout-ms = <150>;
-            key-positions = <0 11>;
-            bindings = <&to CONF>;
-            };
-        };
-    // G en H voor CAPS WORD
-    combos  {
-        compatible = "zmk,combos";
-        combo_settings  {
-            timeout-ms = <50>;
-            key-positions = <17 18>;
-            bindings = <&caps_word>;
-            };
-        };
-    // S, D en F voor CTRL+SPACE
-    combos  {
-        compatible = "zmk,combos";
-        combo_settings  {
-            timeout-ms = <50>;
-            key-positions = <14 15 16>;
-            bindings = <&kp LC(SPACE)>;
-            };
-        };
-
-    macros  {
+  macros  {
         smile: smile    {
             label = "ZM_smile";
             compatible = "zmk,behavior-macro";
