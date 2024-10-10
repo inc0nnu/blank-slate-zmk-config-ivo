@@ -37,19 +37,11 @@
 #define BT_SEL_ROW &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3
 #define BT_SEL_CLR &bt BT_CLR
 
-#define COMBO(NAME, BINDINGS, KEYPOS) \
-  combo_##NAME { \
-    timeout-ms = <50>; \
-    bindings = <BINDINGS>; \
-    key-positions = <KEYPOS>; \
-    layers = <DEF>; \
-  };
-
 &caps_word {
     continue-list = <UNDERSCORE MINUS BSPC DOT>;
 };
-/* left-hand HRMs */
 
+/* left-hand HRMs */
 #define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS) \
     ZMK_HOLD_TAP(NAME, \
         flavor = "balanced"; \
@@ -60,10 +52,10 @@
         hold-trigger-key-positions = <TRIGGER_POS>; \
         hold-trigger-on-release; \
     )
+
 MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
 MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
 
-ZMK_CONDITIONAL_LAYER (NUM NAV, TRI)
 
 #undef COMBO_TERM
 #define COMBO_TERM 40  // timeout of 40ms (default is 30ms if omitted)
@@ -80,11 +72,15 @@ ZMK_BEHAVIOR(smile, macro,
     wait-ms = <100>;
     tap-ms = <5>;
     bindings = <&macro_tap &kp COLON &kp MINUS &kp RPAR>;
+)
 
 ZMK_BEHAVIOR(sad, macro,
     wait-ms = <100>;
     tap-ms = <5>;
     bindings = <&macro_tap &kp COLON &kp MINUS &kp LPAR>;
+)
+
+ZMK_CONDITIONAL_LAYER (NUM NAV, TRI)
 
 ZMK_LAYER(default_layer,
                 &kp ESC   &kp Q    &kp W    &kp E      &kp R  &kp T     &kp Y &kp U &kp I     &kp O   &kp P     &kp BSPC
