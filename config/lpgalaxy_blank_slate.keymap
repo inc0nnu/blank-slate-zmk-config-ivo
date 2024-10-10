@@ -30,8 +30,8 @@
 #define QUICK_TAP_MS 175
 
 // Home row mods macro
-#define HRML(k1,k2,k3,k4,k5) &hml LSHIFT k1 &hml LGUI k2 &hml LALT k3 &hml LCTRL k4 &hml LC(LS(LALT)) k5
-#define HRMR(k1,k2,k3,k4,k5) &hmr RC(RS(RALT)) k1 &hmr RCTRL k2  &hmr LALT k3 &hmr RGUI k4 &hmr RSHIFT k5
+#define HRML(k1,k2,k3,k4,k5) &hml LSHIFT k1 &hml LGUI k2 &hml LALT k3 &hml LCTRL k4 &hml MEH k5
+#define HRMR(k1,k2,k3,k4,k5) &hmr MEH k1 &hmr RCTRL k2  &hmr LALT k3 &hmr RGUI k4 &hmr RSHIFT k5
 
 // Bluetooth
 #define BT_SEL_ROW &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3
@@ -41,21 +41,22 @@
     continue-list = <UNDERSCORE MINUS BSPC DOT>;
 };
 
-/* left-hand HRMs */
-#define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS) \
-    ZMK_HOLD_TAP(NAME, \
-        flavor = "balanced"; \
-        tapping-term-ms = <280>; \
-        quick-tap-ms = <QUICK_TAP_MS>; \
-        require-prior-idle-ms = <150>; \
-        bindings = <HOLD>, <TAP>; \
-        hold-trigger-key-positions = <TRIGGER_POS>; \
-        hold-trigger-on-release; \
-    )
 
-MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
-MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
+ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <QUICK_TAP_MS>;
+    bindings = <&kp>, <&kp>;
+    hold-trigger-key-positions = <KEYS_R THUMBS>;
+)
 
+ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <QUICK_TAP_MS>;
+    bindings = <&kp>, <&kp>;
+    hold-trigger-key-positions = <KEYS_L THUMBS>;
+)
 
 #undef COMBO_TERM
 #define COMBO_TERM 40  // timeout of 40ms (default is 30ms if omitted)
