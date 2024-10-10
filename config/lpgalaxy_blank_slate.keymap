@@ -68,6 +68,12 @@ ZMK_COMBO(ctcopy,       &kp LC(C),     26 27,    DEF)
 ZMK_COMBO(ctpaste,      &kp LC(V),     27 28,    DEF)
 ZMK_COMBO(c_colon,      &kp COLON,     21 22,    DEF)
 
+// windows sleep macro
+ZMK_BEHAVIOR(win_sleep, macro,
+    wait-ms = <100>;
+    tap-ms = <5>;
+    bindings = <&kp LG(X) &kp U &kp S>;
+)
 
 ZMK_BEHAVIOR(smile, macro,
     wait-ms = <100>;
