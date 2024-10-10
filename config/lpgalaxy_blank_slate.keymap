@@ -9,7 +9,7 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/mouse.h>
-
+#include "../zmk-nodefree-config/helper.h"
 // layers
 #define DEF 0
 #define NUM 1
@@ -20,6 +20,8 @@
 
 #define XXX &none
 #define ___ &trans
+#define MEH LC(LA(LSHIFT))
+
 
 #define KEYS_L 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29   // left-hand keys
 #define KEYS_R 6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35 // right-hand keys
@@ -61,95 +63,61 @@
 MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
 MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
 
+ZMK_CONDITIONAL_LAYER (NUM NAV, TRI)
 
-/ {
-    behaviors {
-        ht: hold_tap  {
-            label = "hold_tap";
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <170>;
-            quick-tap-ms = <150>;
-            global-quick-tap;
-            bindings = <&kp>, <&kp>;
-        };
-    };
-   conditional_layers {
-       compatible = "zmk,conditional-layers";
-        tri_layer {
-            if-layers = <NUM NAV>;
-            then-layer = <TRI>;
-        };
+#undef COMBO_TERM
+#define COMBO_TERM 40  // timeout of 40ms (default is 30ms if omitted)
+ZMK_COMBO(combo_sleep,  &win_sleep,     0  1,    NAV)  // custom sleep macro, only active on NAV layer
+ZMK_COMBO(conflayer,    &to CONF,       0 11,    DEF)
+ZMK_COMBO(capsword,     &caps_word,    17 18,    DEF)
+ZMK_COMBO(ctrlspce,     &kp LC(SPACE), 14 15 16, DEF)
+ZMK_COMBO(ctcopy,       &kp LC(C),     26 27,    DEF)
+ZMK_COMBO(ctpaste,      &kp LC(V),     27 28,    DEF)
+ZMK_COMBO(c_colon,      &kp COLON,     21 22,    DEF)
 
-    };
- 
- combos {
-  compatible = "zmk,combos";
-  
-  COMBO(conflayer, &to CONF, 0 11)
-  COMBO(capsword, &caps_word, 17 18)
-  COMBO(ctrlspce, &kp LC(SPACE), 14 15 16)
-  COMBO(ctcopy,   &kp LC(C), 26 27)
-  COMBO(ctpaste,  &kp LC(V), 27 28)
-  COMBO(c_colon,  &kp COLON, 21 22)
-};
-  macros  {
-        smile: smile    {
-            label = "ZM_smile";
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&macro_tap &kp COLON &kp MINUS &kp RPAR>;
-            };
-        sad: sad    {
-            label = "ZM_sad";
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&macro_tap &kp COLON &kp MINUS &kp LPAR>;
-            };
-        };
 
-    keymap  {
-        compatible = "zmk,keymap";
-        base_layer  {
-            bindings = <
+ZMK_BEHAVIOR(smile, macro,
+    wait-ms = <100>;
+    tap-ms = <5>;
+    bindings = <&macro_tap &kp COLON &kp MINUS &kp RPAR>;
+
+ZMK_BEHAVIOR(sad, macro,
+    wait-ms = <100>;
+    tap-ms = <5>;
+    bindings = <&macro_tap &kp COLON &kp MINUS &kp LPAR>;
+
+ZMK_LAYER(default_layer,
                 &kp ESC   &kp Q    &kp W    &kp E      &kp R  &kp T     &kp Y &kp U &kp I     &kp O   &kp P     &kp BSPC
                 &kp TAB   HRML(A,    S,      D,       F,       G)      HRMR(H,    J,    K,        L,     SEMI) &kp ENTER
                 XXX   &kp Z    &kp X    &kp C      &kp V  &kp B     &kp N &kp M &kp COMMA &kp DOT &kp FSLH  &kp DEL
                 &kp DEL XXX XXX XXX &mo NUM &kp SPACE &kp RSHIFT &mo NAV XXX   XXX   XXX   XXX
-                >;
-            };
-        num_layer {
-            bindings = < 
+)
+
+ZMK_LAYER(num_layer,
                 ___ &kp EXCL  &kp AT  &kp HASH &kp QMARK  &kp PERCENT &kp AMPS  &kp SQT  &kp LPAR &kp RPAR &kp CARET    ___
                 ___ HRML(N1,      N2,     N3,      N4,       N5)   HRMR(N6,        N7,       N8,       N9,      N0)  ___
                 XXX   &kp BSLH &kp TILDE &kp PIPE  &kp MINUS &kp PLUS  &kp STAR    &kp EQUAL &kp COMMA &kp DOT  &kp FSLH &kp DEL
                 XXX   XXX      XXX       XXX       ___   ___  ___   ___   XXX  XXX   XXX  &kp SPACE
-                >;
-            };
-         nav_layer {
-            bindings = <
+)
+
+ZMK_LAYER(nav_layer,
    	 	        XXX  &kp F1   &kp F2  &kp F3 &kp F4 &kp F5     XXX  &kp LA(LEFT) &kp UP   &kp LA(RIGHT) &kp PAGE_UP   &kp LC(BSPC)
    	            &caps_word &kp LSHIFT &kp LGUI &kp LALT &kp LCTRL &kp LC(LS(LALT)) &kp LC(LEFT) &kp LEFT     &kp DOWN &kp RIGHT     &kp LC(RIGHT) &kp LA(ENTER) 
    	            XXX &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 XXX  &kp HOME    XXX   &kp END        &kp PAGE_DOWN         &kp LC(DEL)
                 &kp DEL XXX    XXX  XXX    ___   ___   ___   ___   XXX   XXX   XXX   XXX
-                >;
-            };
-        tri_layer {
-            bindings = < 
+)
+
+ZMK_LAYER(tri_layer,
                 &kp ESC &kp EXCL  &kp AT  &kp HASH &kp DOLLAR  &kp PERCENT &kp AMPS  &kp DQT  &kp LBKT &kp RBKT &kp CARET  &kp BSPC
                 &kp TAB HRML(N1,      N2,     N3,      N4,       N5)   HRMR(N6,        N7,       N8,       N9,      N0)  &kp ENTER
                 XXX &kp BSLH &kp LBRC &kp RBRC  &kp UNDER &kp PLUS  &kp STAR    &kp EQUAL &sad &smile  &kp FSLH &kp DEL
                 XXX   XXX   XXX   XXX   ___   ___   ___   ___   XXX   XXX   XXX   XXX
-                >;
-            };
-    	config_layer {
-            bindings = <
+)
+
+ZMK_LAYER(config_layer,
                 &to DEF  XXX   XXX   XXX   XXX     XXX     XXX     XXX     XXX   XXX   XXX         XXX
                 XXX      BT_SEL_ROW                XXX     XXX     XXX     XXX   XXX   BT_SEL_CLR  XXX
                 XXX      XXX   XXX   XXX   XXX     XXX     XXX     XXX     XXX   XXX   XXX         XXX
                 XXX      XXX   XXX   XXX   &kp B   &kp B   &kp B   &kp B   XXX   XXX   XXX         XXX
-                >;
-            };
-    };
-};
+)
+
