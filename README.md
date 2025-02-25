@@ -1,4 +1,4 @@
-# Blank Slate ZMK Firmware
+# Blank Slate ZMK Firmware  
 
 This repo contains the firmware for the Blank Slate PCB.
 
