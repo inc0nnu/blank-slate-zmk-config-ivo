@@ -81,7 +81,7 @@ ZMK_BEHAVIOR(sad, macro,
     wait-ms = <100>;
     tap-ms = <5>;
     bindings = <&macro_tap &kp COLON &kp MINUS &kp LPAR>;
-
+)
 ZMK_CONDITIONAL_LAYER (NUM NAV, TRI)
 
 ZMK_LAYER(default_layer,
@@ -117,4 +117,5 @@ ZMK_LAYER(config_layer,
                 XXX      BT_SEL_ROW                XXX     XXX     XXX     XXX   XXX   BT_SEL_CLR  XXX
                 XXX      XXX   XXX   XXX   XXX     XXX     XXX     XXX     XXX   XXX   XXX         XXX
                 XXX      XXX   XXX   XXX   &kp B   &kp B   &kp B   &kp B   XXX   XXX   XXX         XXX
-)    
+)
+
