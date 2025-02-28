@@ -83,13 +83,23 @@ ZMK_BEHAVIOR(sad, macro,
     tap-ms = <5>;
     bindings = <&macro_tap &kp COLON &kp MINUS &kp LPAR>;
 )
+ZMK_BEHAVIOR(arrow, macro,
+    wait-ms = <100>;
+    tap-ms = <5>;
+    bindings = <&macro_tap &kp MINUS &kp GT>;
+)
+ZMK_BEHAVIOR(task, macro,
+    wait-ms = <100>;
+    tap-ms = <5>;
+    bindings = <&macro_tap &kp MINUS &kp SPACE &kp LBKT &kp SPACE &kp RBKT &kp SPACE>;
+)
 ZMK_CONDITIONAL_LAYER (NUM NAV, TRI)
 
 ZMK_LAYER(default_layer,
-                &kp ESC   &kp Q    &kp W    &kp E      &kp R  &kp T     &kp Y &kp U &kp I     &kp O   &kp P     &kp BSPC
-                &kp TAB   HRML(A,    S,      D,       F,       G)      HRMR(H,    J,    K,        L,     SEMI) &kp ENTER
-                &kp GRAVE   &kp Z    &kp X    &kp C      &kp V  &kp B     &kp N &kp M &kp COMMA &kp DOT &kp FSLH  &kp DEL
-                &kp DEL XXX XXX XXX &mo NUM &kp SPACE &kp RSHIFT &mo NAV XXX   XXX   XXX   XXX
+                &kp ESC    &kp Q    &kp W  &kp E  &kp R    &kp T      &kp Y       &kp U    &kp I      &kp O    &kp P     &kp BSPC
+                &kp TAB    HRML(A,  S,     D,     F,       G)         HRMR(H,     J,       K,         L,       SEMI)     &kp ENTER
+                &kp GRAVE  &kp Z    &kp X  &kp C  &kp V    &kp B      &kp N       &kp M    &kp COMMA  &kp DOT  &kp FSLH  &kp DEL
+                &kp DEL    XXX      XXX    XXX    &mo NUM  &kp SPACE  &kp RSHIFT  &mo NAV  XXX        XXX      XXX       XXX
 )
 
 ZMK_LAYER(num_layer,
@@ -101,13 +111,13 @@ ZMK_LAYER(num_layer,
 
 ZMK_LAYER(nav_layer,
    	 	        XXX  XXX XXX XXX XXX XXX       XXX  &kp LA(LEFT) &kp UP   &kp LA(RIGHT) &kp PAGE_UP   &kp LC(BSPC)
-   	            &caps_word &kp LSHIFT &kp LGUI &kp LALT &kp LCTRL &kp LC(LS(LALT)) &kp LC(LEFT) &kp LEFT     &kp DOWN &kp RIGHT     &kp LC(RIGHT) &kp LA(ENTER) 
+   	            XXX  HRML(PIPE, SEMI, MINUS, COMMA, DEL)  &kp LC(LEFT) &kp LEFT     &kp DOWN &kp RIGHT     &kp LC(RIGHT) &kp LA(ENTER) 
    	            XXX XXX XXX XXX XXX XXX XXX  &kp HOME    XXX   &kp END        &kp PAGE_DOWN         &kp LC(DEL)
-                &kp DEL XXX    XXX  XXX    ___   ___   ___   ___   XXX   XXX   XXX   XXX
+                XXX XXX    XXX  XXX    ___   ___   ___   ___   XXX   XXX   XXX   XXX
 )
 
 ZMK_LAYER(tri_layer,
-                XXX   XXX     XXX     XXX     XXX     XXX    XXX     XXX     XXX   XXX   XXX         XXX
+                XXX   XXX     XXX     &arrow     XXX     XXX    XXX     XXX    &task   XXX   XXX         XXX
                 XXX   HRML(F1, F2, F3, F4,F5) HRMR(F6, F7, F8, F9, F10) &kp F11
                 XXX   XXX   XXX   XXX   XXX   XXX   XXX   XXX   &sad  &smile  XXX   XXX
                 XXX   XXX   XXX   XXX   ___   ___   ___   ___   XXX   XXX     XXX   XXX
