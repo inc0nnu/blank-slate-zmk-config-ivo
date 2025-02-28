@@ -93,7 +93,7 @@ ZMK_LAYER(default_layer,
 )
 
 ZMK_LAYER(num_layer,
-                &kp SQT &kp EXCL  &kp AT  &kp HASH &kp DOLLAR &kp PERCENT &kp CARET &kp AMPS  &kp STAR  &kp LPAR &kp RPAR &kp LBKT &kp UNDER
+                &kp SQT &kp EXCL  &kp AT  &kp HASH &kp DOLLAR &kp PERCENT &kp CARET &kp AMPS  &kp STAR  &kp LPAR &kp RPAR &kp UNDER
                 &kp DQT HRML(N1,      N2,     N3,      N4,       N5)   HRMR(N6,        N7,       N8,       N9,      N0) &kp PIPE
                 &kp TILDE   &kp BSLH &kp LBKT &kp RBKT  &kp MINUS &kp PLUS  &kp STAR    &kp EQUAL &kp COMMA &kp DOT  &kp FSLH &kp QMARK
                 XXX   XXX      XXX       XXX       ___   ___  ___   ___   XXX  XXX   XXX  &kp SPACE
@@ -108,7 +108,7 @@ ZMK_LAYER(nav_layer,
 
 ZMK_LAYER(tri_layer,
                 XXX   XXX     XXX     XXX     XXX     XXX    XXX     XXX     XXX   XXX   XXX         XXX
-                XXX   &kp F1  &kp F2  &kp F3  &kp F4  &kp F5 &kp F6  &kp F7  &kp F8 &kp F9  &kp F10 &kp F11
+                XXX   HRML(F1, F2, F3, F4,F5) HRMR(F6, F7, F8, F9, F10) &kp F11
                 XXX   XXX   XXX   XXX   XXX   XXX   XXX   XXX   &sad  &smile  XXX   XXX
                 XXX   XXX   XXX   XXX   ___   ___   ___   ___   XXX   XXX     XXX   XXX
 )
