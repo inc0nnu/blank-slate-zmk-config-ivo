@@ -21,6 +21,8 @@
 #define MEH LC(LA(LSHIFT))
 
 #define QUICK_TAP_MS 175
+#define TAPPING_TERM_MS 300
+#define REQ_PRIOR_IDLE_MS 200
 
 // Home row mods macro
 #define HRML(k1,k2,k3,k4,k5) &hml LSHIFT k1 &hml LGUI k2 &hml LALT k3 &hml LCTRL k4 &hml MEH k5
@@ -40,29 +42,34 @@
 
 ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
     flavor = "balanced";
-    tapping-term-ms = <280>;
+    tapping-term-ms = <TAPPING_TERM_MS>;
     quick-tap-ms = <QUICK_TAP_MS>;
+    require-prior-idle-ms = <REQ_PRIOR_IDLE_MS>;
+    hold-trigger-on-release;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_R THUMBS>;
 )
 
 ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
     flavor = "balanced";
-    tapping-term-ms = <280>;
+    tapping-term-ms = <TAPPING_TERM_MS>;
     quick-tap-ms = <QUICK_TAP_MS>;
+    require-prior-idle-ms = <REQ_PRIOR_IDLE_MS>;
+    hold-trigger-on-release;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_L THUMBS>;
 )
 
 #undef COMBO_TERM
 #define COMBO_TERM 40  // timeout of 40ms (default is 30ms if omitted)
-ZMK_COMBO(combo_sleep,  &win_sleep,     0  1,    TRI) // custom sleep macro, only active on TRI layer
+//ZMK_COMBO(combo_sleep,  &win_sleep,     0  1,    NAV) // custom sleep macro, only active on NAV layer
+ZMK_COMBO(lockscr,      &kp LG(L),      0 1 2,    DEF) // lock screen by pressing ESC Q W
 ZMK_COMBO(conflayer,    &to CONF,       0 11,    DEF) // ESC BSPC
 ZMK_COMBO(capsword,     &caps_word,    13 22,    DEF) // A:
 ZMK_COMBO(ctrlspce,     &kp LC(SPACE), 16 19, DEF)    // FJ
-ZMK_COMBO(ctcopy,       &kp LC(C),     26 27,    DEF) // XC
-ZMK_COMBO(ctpaste,      &kp LC(V),     27 28,    DEF) // CV
-ZMK_COMBO(ctundo,       &kp LC(Z),     25 26,    DEF) // ZX
+//ZMK_COMBO(ctcopy,       &kp LC(C),     26 27,    DEF) // XC
+//ZMK_COMBO(ctpaste,      &kp LC(V),     27 28,    DEF) // CV
+//ZMK_COMBO(ctundo,       &kp LC(Z),     25 26,    DEF) // ZX
 //ZMK_COMBO(c_colon,      &kp COLON,     21 22,    DEF) //
 //ZMK_COMBO(rshwin),      &kp RS(RGUI),  21,22,    DEF)  // L; voor shift-gui...
 
