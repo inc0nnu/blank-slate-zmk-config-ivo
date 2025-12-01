@@ -8,6 +8,7 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/pointing.h>
 #include "helper.h"
 
 #define DEF 0
@@ -38,7 +39,7 @@
 
 #define KEYS_L 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29   // left-hand keys
 #define KEYS_R 6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35 // right-hand keys
-#define THUMBS 36 40 41 42 43 47           // thumb keys
+#define THUMBS 39 40 41 42 43 44           // thumb keys
 
 ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
     flavor = "balanced";
@@ -61,17 +62,18 @@ ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
 )
 
 #undef COMBO_TERM
-#define COMBO_TERM 40  // timeout of 40ms (default is 30ms if omitted)
-//ZMK_COMBO(combo_sleep,  &win_sleep,     0  1,    NAV) // custom sleep macro, only active on NAV layer
-ZMK_COMBO(lockscr,      &kp LG(L),      0 1 2,    DEF) // lock screen by pressing ESC Q W
-ZMK_COMBO(conflayer,    &to CONF,       0 11,    DEF) // ESC BSPC
-ZMK_COMBO(capsword,     &caps_word,    13 22,    DEF) // A:
-ZMK_COMBO(ctrlspce,     &kp LC(SPACE), 16 19, DEF)    // FJ
-//ZMK_COMBO(ctcopy,       &kp LC(C),     26 27,    DEF) // XC
-//ZMK_COMBO(ctpaste,      &kp LC(V),     27 28,    DEF) // CV
-//ZMK_COMBO(ctundo,       &kp LC(Z),     25 26,    DEF) // ZX
-//ZMK_COMBO(c_colon,      &kp COLON,     21 22,    DEF) //
-//ZMK_COMBO(rshwin),      &kp RS(RGUI),  21,22,    DEF)  // L; voor shift-gui...
+#define COMBO_TERM 30  // timeout of 40ms (default is 30ms if omitted)
+ZMK_COMBO(dele,         &kp DEL,        10 11,    DEF)    // DEL op o en p
+ZMK_COMBO(colo,         &kp COLON,      10 26,    DEF)    // COLON op c en o
+ZMK_COMBO(semicolo,     &kp SEMI,       11 26,    DEF)    // SEMICOLON op C en P
+ZMK_COMBO(lockscr,      &kp LG(L),      0 1 2,    DEF)    // Win lock screen by pressing Q W E
+ZMK_COMBO(conflayer,    &to CONF,       0 11,     DEF)    // config layer op Q en P
+ZMK_COMBO(capsword,     &caps_word,     12 23,    DEF)    // capsword op A + BSPC
+ZMK_COMBO(ctrlspce,     &kp LC(SPACE),  15 20,    DEF)    // runbar op F + J 
+ZMK_COMBO(quemar,       &kp QMARK ,     0 8,      DEF)    // Vraagteken op Q + U
+ZMK_COMBO(esca,         &kp ESC   ,     0 1,      DEF)    // Escape op Q + W
+ZMK_COMBO(ctrlBSPC,     &kp LC(BSPC),   15 23,    DEF)    // Control BSPC op F + BSPC
+ZMK_COMBO(paswe,        &pasw,          11 12 13, DEF)    // pasw macro on P+A+S
 
 
 // windows sleep macro
@@ -87,6 +89,11 @@ ZMK_BEHAVIOR(smile, macro,
     bindings = <&macro_tap &kp COLON &kp MINUS &kp RPAR>;
 )
 
+ZMK_BEHAVIOR(pasw, macro,
+    wait-ms = <100>;
+    tap-ms = <100>;
+    bindings = <&macro_tap &kp EXCL &kp P &kp A &kp S &kp W &kp R>;
+)
 ZMK_BEHAVIOR(sad, macro,
     wait-ms = <100>;
     tap-ms = <5>;
@@ -105,38 +112,38 @@ ZMK_BEHAVIOR(task, macro,
 ZMK_CONDITIONAL_LAYER (NUM NAV, TRI)
 
 ZMK_LAYER(default_layer,
-                &kp ESC    &kp Q    &kp W  &kp E  &kp R    &kp T              &kp Y       &kp U    &kp I      &kp O    &kp P     &kp BSPC
-                &kp TAB    HRML(A,  S,     D,     F,       G)                 HRMR(H,     J,       K,         L,       SEMI)     &kp ENTER
-                &kp QMARK  &kp Z    &kp X  &kp C  &kp V    &kp B              &kp N       &kp M    &kp COMMA  &kp DOT  &kp FSLH  &kp DEL
-                &kp DEL    XXX      XXX    XXX    &mo NUM  &kp SPACE          &kp RSHIFT  &mo NAV  XXX        XXX      XXX       XXX
+                &kp Q       &kp W     &kp E     &kp R      &kp T        XXX      XXX       &kp Y       &kp U         &kp I      &kp O      &kp P
+                HRML(A,     S,        D,        F,         G)           XXX      XXX       HRMR(H,     J,            K,         L,         BSPC)     
+                &kp Z       &kp X     &kp C     &kp V      &kp B        XXX      XXX       &kp N       &kp M         &kp COMMA  &kp DOT    &kp MINUS
+                XXX         XXX       XXX       &mo NUM    &kp SPACE    &kp TAB  &kp ENTER &kp RSHIFT  &lt NAV SPACE XXX        XXX        XXX
 )
 
 ZMK_LAYER(num_layer,
-                &kp CARET &kp EXCL  &kp AT   &kp HASH &kp DOLLAR &kp PERCENT   &kp UNDER  &kp AMPS   &kp STAR   &kp LPAR  &kp RPAR  &kp BSPC
-                &kp DQT   HRML(N1,  N2,      N3,      N4,        N5)           HRMR(N6,   N7,        N8,        N9,       N0)       &kp SQT
-                &kp QMARK &kp GRAVE &kp LBKT &kp RBKT &kp MINUS  &kp PLUS      &kp STAR   &kp EQUAL  &kp COMMA  &kp DOT   &kp FSLH  &kp PIPE
-                XXX       XXX       XXX      XXX      ___        ___           ___        ___        XXX        XXX       XXX       &kp SPACE
+                &kp EXCL    &kp AT    &kp HASH  &kp SQT    &kp PERCENT  XXX      XXX       &kp UNDER   &kp AMPS      &kp STAR   &kp LPAR   &kp RPAR
+                HRML(N1,    N2,       N3,       N4,        N5)          XXX      XXX       HRMR(N6,    N7,           N8,        N9,        N0)
+                &kp FSLH    &kp LBKT  &kp RBKT  &kp DQT    &kp PLUS     XXX      XXX       &kp PIPE    &kp EQUAL     &kp COMMA  &kp DOT    &kp MINUS
+                XXX         XXX       XXX       ___        XXX          XXX      ___       ___         ___           XXX        XXX        XXX
 )
 //
 ZMK_LAYER(nav_layer,
-   	 	        XXX  XXX        XXX    XXX     XXX     XXX           XXX          &kp LA(LEFT) &kp UP    &kp LA(RIGHT)  &kp PAGE_UP    &kp LC(BSPC)
-   	            XXX  HRML(PIPE, SEMI,  MINUS,  COMMA,  DEL)          &kp LC(LEFT) &kp LEFT     &kp DOWN  &kp RIGHT      &kp LC(RIGHT)  &kp LA(ENTER) 
-   	            XXX  XXX        XXX    XXX     XXX     XXX           XXX          &kp HOME     XXX       &kp END        &kp PAGE_DOWN  &kp LC(DEL)
-                XXX  XXX        XXX    XXX     ___     ___           ___          ___          XXX       XXX            XXX            XXX
-)
-
-ZMK_LAYER(tri_layer,
-                XXX  XXX        XXX   &arrow   XXX    XXX             XXX       XXX    &task   XXX      XXX        XXX
-                XXX  HRML(F1,   F2,   F3,      F4,    F5)             HRMR(F6,  F7,    F8,     F9,      F10)       &kp F11
-                XXX  &kp TILDE  XXX   XXX      XXX    XXX             XXX       XXX    &sad    &smile   &kp BSLH   XXX
-                XXX  XXX        XXX   XXX      ___    ___             ___       ___    XXX     XXX      XXX        XXX
-)
-
-ZMK_LAYER(config_layer,
-                &to DEF   XXX    XXX   XXX    XXX     XXX             XXX      XXX     XXX     XXX     XXX         XXX
-                XXX       BT_SEL_ROW                  XXX             XXX      XXX     XXX     XXX     BT_SEL_CLR  XXX
-                XXX       XXX    XXX   XXX    XXX     XXX             XXX      XXX     XXX     XXX     XXX         XXX
-                XXX       XXX    XXX   XXX    &kp C   &kp O           &kp N    &kp F   XXX     XXX     XXX         XXX
+   	 	        &kp LPAR    &kp RPAR  &kp STAR  XXX        XXX          XXX      XXX       XXX         &mkp LCLK     &kp UP     &mkp RCLK  &kp PAGE_UP
+   	            HRML(PIPE,  SEMI,     MINUS,    COMMA,     HASH)        XXX      XXX       &kp HOME    &kp LEFT      &kp DOWN   &kp RIGHT  &kp END 
+   	            XXX         XXX       &kp ENTER &kp DEL    XXX          XXX      XXX       XXX         XXX           XXX        XXX        &kp PAGE_DOWN
+                XXX         XXX       XXX       ___        ___          ___      XXX       XXX         ___           XXX        XXX        XXX
+)     
+     
+ZMK_LAYER(tri_layer,     
+                &kp GRAVE   &kp TILDE &arrow    &kp DOLLAR XXX          XXX      XXX    &kp CARET      XXX           &task      &sad       &smile
+                HRML(F1,    F2,       F3,       F4,        F5)          XXX      XXX    HRMR(F6,       F7,           F8,        F9,        F10)
+                &kp BSLH    &kp LBRC  &kp RBRC  XXX        &kp F11      XXX      XXX    &kp F12        XXX           &kp LT     &kp GT     XXX
+                XXX         XXX       XXX       ___        XXX          XXX      XXX    XXX            ___           XXX        XXX        XXX
+)     
+     
+ZMK_LAYER(config_layer,     
+                &to DEF     XXX       XXX       XXX        XXX          XXX      XXX     XXX           XXX           XXX        XXX        XXX
+                BT_SEL_ROW                                 XXX          XXX      XXX     XXX           XXX           XXX        XXX        BT_SEL_CLR
+                XXX         XXX       XXX       XXX        XXX          XXX      XXX     XXX           XXX           XXX        XXX        XXX
+                XXX         XXX       XXX       &kp C      &kp O        XXX      XXX     &kp N         &kp F         XXX        XXX        XXX
 )
 
     
