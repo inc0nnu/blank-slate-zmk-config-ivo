@@ -111,8 +111,7 @@ ZMK_LAYER(default_layer,
                 XXX         XXX       XXX        &mo NUM   &kp SPACE    &kp TAB  &caps_word &kp RSHIFT  &lt NAV SPACE XXX        XXX        XXX
 )
 
-ZMK_LAYER(sym_layer,
-                &kp Q       ___       ___        ___       ___          XXX      XXX        &kp caret   &kp DQT       &kp PIPE   &kp LBRC   &kp RBRC
+ZMK_LAYER(sym_layer, &kp Q       ___       ___        ___       ___          XXX      XXX        &kp CARET   &kp DQT       &kp PIPE   &kp LBRC   &kp RBRC
                 &kp A       ___       ___        ___       ___          XXX      XXX        &kp FSLH    &kp SQT       &kp COLON  &kp SEMI   ___
                 &kp Z       ___       &lt SYM C  ___       ___          XXX      XXX        &kp BSLH    &kp GRAVE     &kp TILDE  ___        XXX
                 ___         ___       ___        XXX       ___          XXX      ___        ___         ___           ___        ___        ___
