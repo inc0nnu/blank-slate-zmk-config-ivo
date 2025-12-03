@@ -52,15 +52,15 @@ ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
     hold-trigger-key-positions = <KEYS_R THUMBS>;
 )
 
-ZMK_BEHAVIOR(ltl, hold_tap,  // left-hand layertap
-    flavor = "balanced";
-    tapping-term-ms = <TAPPING_TERM_MS>;
-    quick-tap-ms = <QUICK_TAP_MS>;
-    require-prior-idle-ms = <REQ_PRIOR_IDLE_MS>;
-    hold-trigger-on-release;
-    bindings = <&mo>, <&kp>;
-    hold-trigger-key-positions = <KEYS_R THUMBS>;
-)
+//ZMK_BEHAVIOR(ltl, hold_tap,  // left-hand layertap
+//    flavor = "balanced";
+//    tapping-term-ms = <TAPPING_TERM_MS>;
+//    quick-tap-ms = <QUICK_TAP_MS>;
+//    require-prior-idle-ms = <REQ_PRIOR_IDLE_MS>;
+//    hold-trigger-on-release;
+//    bindings = <&mo>, <&kp>;
+//    hold-trigger-key-positions = <KEYS_R THUMBS>;
+//)
 
 ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
     flavor = "balanced";
@@ -124,13 +124,13 @@ ZMK_CONDITIONAL_LAYER (NUM NAV, TRI)
 ZMK_LAYER(default_layer,
                 &kp Q       &kp W     &kp E      &kp R     &kp T        XXX      XXX        &kp Y       &kp U         &kp I      &kp O      &kp P
                 HRML(A,     S,        D,         F,        G)           XXX      XXX        HRMR(H,     J,            K,         L,         BSPC)     
-                &kp Z       &kp X     &ltl SYM C &kp V     &kp B        XXX      XXX        &kp N       &kp M         &kp COMMA  &kp DOT    &kp ENTER
+                &kp Z       &kp X     &lt SYM C  &kp V     &kp B        XXX      XXX        &kp N       &kp M         &kp COMMA  &kp DOT    &kp ENTER
                 XXX         XXX       XXX        &mo NUM   &kp SPACE    &kp TAB  &caps_word &kp RSHIFT  &lt NAV SPACE XXX        XXX        XXX
 )
 ZMK_LAYER(sym_layer,
                 ___         ___       ___        ___       ___          XXX      XXX        &kp caret   &kp DQT       &kp PIPE   &kp LBRC   &kp RBRC
                 ___         ___       ___        ___       ___          XXX      XXX        &kp FSLH    &kp SQT       &kp COLON  &kp SEMI   ___
-                ___         ___       &ltl SYM C ___       ___          XXX      XXX        &kp BSLH    &kp GRAVE     &kp TILDE  ___        XXX
+                ___         ___       &lt SYM C  ___       ___          XXX      XXX        &kp BSLH    &kp GRAVE     &kp TILDE  ___        XXX
                 ___         ___       ___        XXX       ___          XXX      ___        ___         ___           ___        ___        ___
 )
 ZMK_LAYER(num_layer,
