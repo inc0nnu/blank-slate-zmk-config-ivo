@@ -113,8 +113,8 @@ ZMK_LAYER(default_layer,
 
 ZMK_LAYER(sym_layer,
                 &kp Q       ___       ___        ___       ___          XXX      XXX        &kp caret   &kp DQT       &kp PIPE   &kp LBRC   &kp RBRC
-                ___         ___       ___        ___       ___          XXX      XXX        &kp FSLH    &kp SQT       &kp COLON  &kp SEMI   ___
-                ___         ___       &lt SYM C  ___       ___          XXX      XXX        &kp BSLH    &kp GRAVE     &kp TILDE  ___        XXX
+                &kp A       ___       ___        ___       ___          XXX      XXX        &kp FSLH    &kp SQT       &kp COLON  &kp SEMI   ___
+                &kp Z       ___       &lt SYM C  ___       ___          XXX      XXX        &kp BSLH    &kp GRAVE     &kp TILDE  ___        XXX
                 ___         ___       ___        XXX       ___          XXX      ___        ___         ___           ___        ___        ___
 )
 
