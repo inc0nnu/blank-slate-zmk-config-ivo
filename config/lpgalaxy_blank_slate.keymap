@@ -111,16 +111,17 @@ ZMK_LAYER(default_layer,
                 XXX         XXX       XXX        &mo NUM   &kp SPACE    &kp TAB  &caps_word &kp RSHIFT  &lt NAV SPACE XXX        XXX        XXX
 )
 
-ZMK_LAYER(sym_layer, &kp Q       ___       ___        ___       ___          XXX      XXX        &kp CARET   &kp DQT       &kp PIPE   &kp LBRC   &kp RBRC
-                &kp A       ___       ___        ___       ___          XXX      XXX        &kp FSLH    &kp SQT       &kp COLON  &kp SEMI   ___
-                &kp Z       ___       &lt SYM C  ___       ___          XXX      XXX        &kp BSLH    &kp GRAVE     &kp TILDE  ___        XXX
-                ___         ___       ___        XXX       ___          XXX      ___        ___         ___           ___        ___        ___
+ZMK_LAYER(sym_layer, 
+                ___       ___       ___        ___       ___          XXX      XXX        &kp LBRC    &kp N4        &kp N5     &kp N6     &kp RBRC
+                HRML(A,   S,        D,         F,        G)           XXX      XXX        &kp N0      &kp N1        &kp N2     &kp N3     ___
+                ___       ___       &lt SYM C  ___       ___          XXX      XXX        &kp DOT     &kp N7        &kp N8     &kp N9     ___
+                ___       ___       ___        XXX       ___          XXX      ___        ___         ___           ___        ___        ___
 )
 
 ZMK_LAYER(num_layer,
                 &kp EXCL    &kp AT    &kp HASH  &kp DOLLAR &kp PERCENT  XXX      XXX       &kp UNDER   &kp AMPS      &kp STAR   &kp LPAR   &kp RPAR
-                HRML(N1,    N2,       N3,       N4,        N5)          XXX      XXX       HRMR(N6,    N7,           N8,        N9,        N0)
-                XXX         &kp LBKT  &kp RBKT  &kp MINUS  &kp PLUS     XXX      XXX       &kp QMARK   &kp EQUAL     &kp COMMA  &kp DOT    &kp ENTER
+                HRML(PIPE,  BSLH,     FSLH,     QMARK,     GRAVE)       XXX      XXX       HRMR(DQT,   SQT,          COLON,     SEMI,      BSPC)
+                &kp CARET   &kp LBKT  &kp RBKT  &kp MINUS  &kp PLUS     XXX      XXX       &kp TILDE   &kp EQUAL     &kp COMMA  &kp DOT    &kp ENTER
                 ___         ___       ___       &mo NUM    XXX          XXX      ___       ___         ___           XXX        XXX        XXX
 )
 
